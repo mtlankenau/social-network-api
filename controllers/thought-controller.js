@@ -30,7 +30,7 @@ const thoughtController = {
     Thought.create(body)
       .then(({ _id }) => {
         return User.findOneAndUpdate(
-          { _id: params.pizzaId },
+          { _id: params.id },
           { $push: { thoughts: _id } },
           { new: true }
         );
@@ -87,14 +87,14 @@ const thoughtController = {
       })
       .catch(err => {
         console.log(err);
-        res.json(err)
+        res.json(err);
       })
   },
 
   deleteReaction: function({ params }, res) {
     Thought.findOneAndUpdate(
       { _id: params.id },
-      { $pull: { reactions: body } },
+      { $pull: { reactions: { reactionId: params.reactionId } } },
       { new: true }
     )
     .then(dbThoughtData => {
